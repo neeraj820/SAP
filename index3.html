@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CampusConnect</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+    }
+
+    /* Navbar */
+    .navbar {
+      background: #fff;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ddd;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .navbar h1 {
+      margin: 0;
+      font-size: 1.4rem;
+      color: #0077cc;
+    }
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+    }
+    .navbar ul li {
+      margin-left: 1.5rem;
+    }
+    .navbar ul li a {
+      color: #0077cc;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    /* Post box */
+    .post-box {
+      max-width: 600px;
+      background: #fff;
+      margin: 1.5rem auto;
+      padding: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .post-box textarea {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      resize: none;
+      background: #f9f9f9;
+      margin-bottom: 10px;
+    }
+    .post-box input[type="file"] {
+      margin-bottom: 10px;
+      display: block;
+    }
+    .image-preview {
+      max-width: 100%;
+      max-height: 200px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      display: none;
+    }
+    .post-box button {
+      padding: 0.6rem 1.4rem;
+      background: #0077cc;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      float: right;
+      font-weight: bold;
+    }
+    .post-box button:hover {
+      background: #005fa3;
+    }
+
+    /* Feed */
+    .feed {
+      max-width: 600px;
+      margin: 1.5rem auto;
+    }
+    .post {
+      background: #fff;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
+    .post-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #0077cc;
+      display: inline-block;
+      margin-right: 10px;
+    }
+    .username {
+      font-weight: bold;
+      color: #333;
+    }
+    .post p {
+      margin: 0.5rem 0;
+      color: #444;
+    }
+    .post img {
+      max-width: 100%;
+      border-radius: 10px;
+      margin-top: 0.5rem;
+    }
+    .post-actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.5rem;
+    }
+    .post-actions button {
+      border: none;
+      background: none;
+      color: #0077cc;
+      font-size: 0.9rem;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .post-actions button:hover {
+      text-decoration: underline;
+    }
+
+    @media(max-width: 650px){
+      .navbar h1 { font-size: 1.1rem; }
+      .post-box, .feed { margin: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="navbar">
+    <h1>CampusConnect</h1>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Events</a></li>
+      <li><a href="#">Profile</a></li>
+    </ul>
+  </div>
+
+  <!-- Post Box -->
+  <div class="post-box">
+    <textarea id="postContent" rows="3" placeholder="What's happening on campus?"></textarea>
+    <input type="file" id="postImage" accept="image/*" onchange="previewImage(event)">
+    <img id="imagePreview" class="image-preview">
+    <button onclick="addPost()">Post</button>
+  </div>
+
+  <!-- Feed -->
+  <div class="feed" id="feed">
+    <div class="post">
+      <div class="post-header">
+        <div class="avatar"></div>
+        <span class="username">John Doe</span>
+      </div>
+      <p>Welcome to CampusConnect! 🎉 Share your activities here.</p>
+      <div class="post-actions">
+        <button>Like</button>
+        <button>Comment</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let uploadedImage = "";
+
+    function previewImage(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          uploadedImage = e.target.result;
+          const preview = document.getElementById('imagePreview');
+          preview.src = uploadedImage;
+          preview.style.display = "block";
+        }
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function addPost() {
+      const content = document.getElementById('postContent').value.trim();
+      if (content === "" && uploadedImage === "") {
+        return alert("Please add text or an image before posting!");
+      }
+
+      const feed = document.getElementById('feed');
+      const postDiv = document.createElement('div');
+      postDiv.className = 'post';
+      postDiv.innerHTML = `
+        <div class="post-header">
+          <div class="avatar"></div>
+          <span class="username">Student</span>
+        </div>
+        <p>${content}</p>
+        ${uploadedImage ? `<img src="${uploadedImage}">` : ""}
+        <div class="post-actions">
+          <button>Like</button>
+          <button>Comment</button>
+        </div>
+      `;
+
+      feed.prepend(postDiv); 
+
+      // Clear inputs
+      document.getElementById('postContent').value = "";
+      document.getElementById('postImage').value = "";
+      document.getElementById('imagePreview').style.display = "none";
+      uploadedImage = "";
+    }
+  </script>
+
+</body>
+</html>

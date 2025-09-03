@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Activity Platform</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+    }
+    /* Navbar */
+    .navbar {
+      background: #0077cc;
+      color: #fff;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .navbar h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+    }
+    .navbar ul li {
+      margin-left: 1.5rem;
+    }
+    .navbar ul li a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    /* Post box */
+    .post-box {
+      max-width: 600px;
+      background: #fff;
+      margin: 1.5rem auto;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .post-box textarea {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      resize: none;
+    }
+    .post-box button {
+      margin-top: 10px;
+      padding: 0.7rem 1.5rem;
+      background: #0077cc;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      float: right;
+    }
+    .post-box button:hover {
+      background: #005fa3;
+    }
+
+    /* Feed */
+    .feed {
+      max-width: 600px;
+      margin: 1.5rem auto;
+    }
+    .post {
+      background: #fff;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .post h4 {
+      margin: 0 0 0.5rem 0;
+      color: #0077cc;
+    }
+    .post p {
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="navbar">
+    <h1>CampusConnect</h1>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Events</a></li>
+      <li><a href="#">Clubs</a></li>
+      <li><a href="#">Profile</a></li>
+    </ul>
+  </div>
+
+  <!-- Post Box -->
+  <div class="post-box">
+    <textarea id="postContent" rows="3" placeholder="What's happening on campus?"></textarea>
+    <button onclick="addPost()">Post</button>
+  </div>
+
+  <!-- Feed -->
+  <div class="feed" id="feed">
+    <!-- Posts will appear here dynamically -->
+  </div>
+
+  <script>
+    function addPost() {
+      const content = document.getElementById('postContent').value.trim();
+      if (content === "") return alert("Please write something before posting!");
+
+      const feed = document.getElementById('feed');
+      const postDiv = document.createElement('div');
+      postDiv.className = 'post';
+      postDiv.innerHTML = `<h4>Student</h4><p>${content}</p>`;
+
+      feed.prepend(postDiv); // New posts appear at the top
+      document.getElementById('postContent').value = ""; // Clear textarea
+    }
+  </script>
+
+</body>
+</html>
